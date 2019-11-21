@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "standard --fix & nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/1dv523/aa224fn-examination-1#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "nodemon": "^2.0.0",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
   }
 }
