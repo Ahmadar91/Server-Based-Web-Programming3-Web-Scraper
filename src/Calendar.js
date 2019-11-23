@@ -43,8 +43,8 @@ async function getDays (arr, url) {
   const body = await getDataFromAPI(url + element)
   // console.log(body)
   const $ = cheerio.load(body)
-  const tbody = $('tbody tr')
-  console.log(tbody.html())
+  const tbody = $('tbody tr td')
+  // console.log(tbody.html())
 
   tbody.each(function (index, element) {
     const okDay = $(this).text().toLowerCase()
@@ -54,11 +54,11 @@ async function getDays (arr, url) {
   })
   console.log(paulDays)
 
-  const user = element.slice(0, element.length - 5)
-  console.log(user)
+  // const user = element.slice(0, element.length - 5)
+  // console.log(user)
 
-  const availableDay = tbody.html()
-  console.log(availableDay.includes('ok'))
+  // const availableDay = tbody.html()
+  // console.log(availableDay.includes('ok'))
 
   // userData = {
   //   name: user,
