@@ -52,6 +52,9 @@ export default async function startCinema (arr, url) {
   // }
 }
 async function getMovie (day, movie, url, arr) {
+  const movies = []
+  //   const movie2 = []
+  //   const movie3 = []
   for (let index = 0; index < arr.length; index++) {
     const element = arr[index]
     console.log('TCL: getMovie -> element', element)
@@ -63,15 +66,19 @@ async function getMovie (day, movie, url, arr) {
       const getDay = day[j].day
       console.log('TCL: getMovie -> getDay', getDay)
       if (element === getDay) {
-        const movie1 = await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[0].value}`)
-        const movie2 = await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[1].value}`)
-        const movie3 = await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[2].value}`)
-        console.log(movie1)
-        console.log(movie2)
-        console.log(movie3)
+        movies.push(await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[0].value}`))
+        movies.push(await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[1].value}`))
+        movies.push(await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[2].value}`))
       }
     }
   }
+  //   console.log(movies)
+  //   console.log(movie2)
+  //   console.log(movie3)
+  //   console.log(movies[1][0])
+  //   console.log(movies[1][1])
+  //   console.log(movies[1][2])
+  getResults(movies, day, movie)
 }
 async function getDataFromAPI (url) {
   const response = await fetch(url)
@@ -85,4 +92,19 @@ async function getResponseFromAPI (url) {
   const body = await response.json()
   //   console.log(body)
   return body
+}
+
+function getResults (arr, day, movie) {
+  const availableTimeResults = []
+
+  console.log('TCL: getResults -> arr', arr)
+  for (let index = 0; index < arr.length; index++) {
+    for (let j = 0; j < 3; j++) {
+      const movie = arr[index][j]
+      if (movie.status === 1) {
+        availableTimeResults.push(movie)
+      }
+    }
+  }
+  console.log(availableTimeResults)
 }
