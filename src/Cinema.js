@@ -37,7 +37,7 @@ export default async function startCinema (arr, url) {
     //   movieDay.push($(this).text().toLowerCase())
     //   movieOption.push(element.attribs.value)
       movieDetailObjet.push({
-        day: $(this).text().toLowerCase(),
+        name: $(this).text().toLowerCase(),
         value: element.attribs.value
       })
     }
@@ -97,7 +97,7 @@ async function getResponseFromAPI (url) {
 function getResults (arr, day, movie) {
   const availableTimeResults = []
 
-  console.log('TCL: getResults -> arr', arr)
+  //   console.log('TCL: getResults -> arr', arr)
   for (let index = 0; index < arr.length; index++) {
     for (let j = 0; j < 3; j++) {
       const movie = arr[index][j]
@@ -107,4 +107,25 @@ function getResults (arr, day, movie) {
     }
   }
   console.log(availableTimeResults)
+  const finalResults = []
+
+  for (let index = 0; index < availableTimeResults.length; index++) {
+    const movieDetails = {}
+    const element = availableTimeResults[index]
+    movieDetails.movieTime = element.time
+    for (let j = 0; j < day.length; j++) {
+      if (element.day === day[j].value) {
+        // console.log(day[j].day)
+        movieDetails.day = day[j].day
+      }
+      if (element.movie === movie[j].value) {
+        // console.log(movie[j].name)
+        movieDetails.movieName = movie[j].name
+      }
+    }
+
+    // console.log('TCL: getResults -> movieDetails', movieDetails)
+    finalResults.push(movieDetails)
+  }
+  console.log(finalResults)
 }
