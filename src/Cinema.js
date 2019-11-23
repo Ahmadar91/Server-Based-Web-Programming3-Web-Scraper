@@ -4,9 +4,12 @@ import fetch from 'node-fetch'
 // const fetch = require('node-fetch')
 // const request = require('request')
 // const cheerio = require('cheerio')
-
+let links = []
 export default async function startCinema (arr, url) {
-  console.log(arr)
+//   console.log(arr)
+  links = url
+
+  console.log('TCL: startCinema -> links', links)
 
   console.log(url[1])
   console.log(arr)
@@ -52,6 +55,7 @@ export default async function startCinema (arr, url) {
   // }
 }
 async function getMovie (day, movie, url, arr) {
+  console.log('TCL: getMovie -> arr', arr)
   const movies = []
   //   const movie2 = []
   //   const movie3 = []
@@ -128,4 +132,6 @@ function getResults (arr, day, movie) {
     finalResults.push(movieDetails)
   }
   console.log(finalResults)
+
+  console.log('TCL: getResults -> links[2]', links[2])
 }
