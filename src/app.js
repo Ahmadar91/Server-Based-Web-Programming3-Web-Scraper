@@ -1,4 +1,4 @@
-import { extractLinks } from './scrape.js'
+import { extractLinks } from './calendar.js'
 
 const args = process.argv.slice(2)
 

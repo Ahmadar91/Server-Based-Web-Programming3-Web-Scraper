@@ -7,7 +7,7 @@ import fetch from 'node-fetch'
 
 export async function extractLinks (urls) {
   const url = urls + ''
-  // console.log(url)
+  console.log(url)
   const items = []
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
@@ -36,26 +36,38 @@ async function getCalender (url) {
 }
 
 async function getDays (arr, url) {
-  const days = []
-  let userData
-  for (let index = 0; index < arr.length; index++) {
-    const element = arr[index]
-    const body = await getDataFromAPI(url + element)
+  const paulDays = []
+  // let userData
+  // for (let index = 0; index < arr.length; index++) {
+  const element = arr[0]
+  const body = await getDataFromAPI(url + element)
+  // console.log(body)
+  const $ = cheerio.load(body)
+  const tbody = $('tbody tr')
+  console.log(tbody.html())
 
-    // console.log(body)
-    const $ = cheerio.load(body)
-    const tbody = $('tbody tr')
-    const user = element.slice(0, element.length - 5)
-    const availabeDay = tbody.text().trim()
-    userData = {
-      name: user,
-      day: availabeDay
-    }
-    console.log(userData)
+  tbody.each(function (index, element) {
+    const okDay = $(this).text().toLowerCase()
+    console.log(okDay)
 
-    days.push(userData)
-    console.log(days)
-  }
+    paulDays.push(okDay)
+  })
+  console.log(paulDays)
+
+  const user = element.slice(0, element.length - 5)
+  console.log(user)
+
+  const availableDay = tbody.html()
+  console.log(availableDay.includes('ok'))
+
+  // userData = {
+  //   name: user,
+  //   day: availableDay
+  // }
+  // console.log(userData)
+
+  // console.log(days)
+  // }
 }
 
 // async function getCalender (urls) {
