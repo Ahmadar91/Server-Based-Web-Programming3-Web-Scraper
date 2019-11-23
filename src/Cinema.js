@@ -1,6 +1,7 @@
 // import request from 'request'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
+import startReservation from './Reservations'
 // const fetch = require('node-fetch')
 // const request = require('request')
 // const cheerio = require('cheerio')
@@ -55,20 +56,20 @@ export default async function startCinema (arr, url) {
   // }
 }
 async function getMovie (day, movie, url, arr) {
-  console.log('TCL: getMovie -> arr', arr)
+//   console.log('TCL: getMovie -> arr', arr)
   const movies = []
   //   const movie2 = []
   //   const movie3 = []
   for (let index = 0; index < arr.length; index++) {
     const element = arr[index]
-    console.log('TCL: getMovie -> element', element)
+    // console.log('TCL: getMovie -> element', element)
     // console.log('TCL: getMovie -> element', element)
 
     // console.log('TCL: getMovie -> getDay', getDay)
-    console.log(222)
+    // console.log(222)
     for (let j = 0; j < day.length; j++) {
       const getDay = day[j].day
-      console.log('TCL: getMovie -> getDay', getDay)
+      //   console.log('TCL: getMovie -> getDay', getDay)
       if (element === getDay) {
         movies.push(await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[0].value}`))
         movies.push(await getResponseFromAPI(url + `/check?day=${day[j].value}&movie=${movie[1].value}`))
@@ -110,7 +111,7 @@ function getResults (arr, day, movie) {
       }
     }
   }
-  console.log(availableTimeResults)
+  //   console.log(availableTimeResults)
   const finalResults = []
 
   for (let index = 0; index < availableTimeResults.length; index++) {
@@ -131,7 +132,7 @@ function getResults (arr, day, movie) {
     // console.log('TCL: getResults -> movieDetails', movieDetails)
     finalResults.push(movieDetails)
   }
-  console.log(finalResults)
-
-  console.log('TCL: getResults -> links[2]', links[2])
+  //   console.log(finalResults)
+  startReservation(finalResults, links[2])
+//   console.log('TCL: getResults -> links[2]', links[2])
 }
