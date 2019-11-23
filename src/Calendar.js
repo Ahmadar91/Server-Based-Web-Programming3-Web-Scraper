@@ -1,23 +1,23 @@
 // import request from 'request'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
+import startCinema from './Cinema.js'
 // const fetch = require('node-fetch')
 // const request = require('request')
 // const cheerio = require('cheerio')
-
-export async function extractLinks (urls) {
+const links = []
+export async function startScraping (urls) {
   const url = urls + ''
   console.log(url)
-  const items = []
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
   const ol = $('a')
   ol.each(function (index, element) {
+    links.push(element.attribs.href)
     // console.log($(this).text())
-    if ($(this).text() === 'Calendar') {
-      items.push(element.attribs.href)
-      getCalender(items[0])
-      // console.log(element.attribs.href)
+    if ($(this).text().toLowerCase() === 'calendar') {
+      // links.push(element.attribs.href)
+      getCalender(links[0])
     }
   })
 }
@@ -25,49 +25,77 @@ export async function extractLinks (urls) {
 async function getCalender (url) {
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
-  console.log($('ul').html())
+  console.log('aaaaaaaaaaaa', $('ul').html())
   const ul = $('a')
   const items = []
+  const userName = []
   ul.each(function (index, element) {
-    // console.log($(this).text())
+    console.log($(this).text())
     items.push(element.attribs.href)
+    userName.push($(this).text())
   })
-  getDays(items, url)
+  console.log(userName)
+
+  getDays(items, url, userName)
 }
 
-async function getDays (arr, url) {
+async function getDays (arr, url, userName) {
   const paulDays = []
-  // let userData
-  // for (let index = 0; index < arr.length; index++) {
-  const element = arr[0]
-  const body = await getDataFromAPI(url + element)
-  // console.log(body)
-  const $ = cheerio.load(body)
-  const tbody = $('tbody tr td')
-  // console.log(tbody.html())
+  const peterDays = []
+  const maryDays = []
+  for (let index = 0; index < arr.length; index++) {
+    const userText = arr[index]
+    const body = await getDataFromAPI(url + userText)
+    const $ = cheerio.load(body)
+    const tbody = $('tbody tr td')
+    const user = userName[index]
+    if (user.toLowerCase().includes('paul')) {
+      tbody.each(function (index, element) {
+        const okDay = $(this).text().toLowerCase()
+        console.log(okDay)
+        paulDays.push(okDay)
+      })
+      console.log('paul', paulDays)
+    }
+    if (user.toLowerCase().includes('peter')) {
+      tbody.each(function (index, element) {
+        const okDay = $(this).text().toLowerCase()
+        console.log(okDay)
+        peterDays.push(okDay)
+      })
+      console.log('peter', peterDays)
+    }
+    if (user.toLowerCase().includes('mary')) {
+      tbody.each(function (index, element) {
+        const okDay = $(this).text().toLowerCase()
+        console.log(okDay)
+        maryDays.push(okDay)
+      })
+      console.log('mary', maryDays)
+    }
+  }
 
-  tbody.each(function (index, element) {
-    const okDay = $(this).text().toLowerCase()
-    console.log(okDay)
-
-    paulDays.push(okDay)
-  })
-  console.log(paulDays)
-
-  // const user = element.slice(0, element.length - 5)
-  // console.log(user)
-
-  // const availableDay = tbody.html()
-  // console.log(availableDay.includes('ok'))
-
-  // userData = {
-  //   name: user,
-  //   day: availableDay
-  // }
-  // console.log(userData)
-
-  // console.log(days)
-  // }
+  compareAvailableDays(paulDays, peterDays, maryDays)
+}
+function compareAvailableDays (paul, peter, mary) {
+  const confirmedDays = []
+  for (let index = 0; index < 3; index++) {
+    const paulOkDays = paul[index]
+    const peterOkDays = peter[index]
+    const maryOkDays = mary[index]
+    if (paulOkDays === peterOkDays && paulOkDays === maryOkDays && peterOkDays === maryOkDays) {
+      if (index === 0) {
+        confirmedDays.push('friday')
+      }
+      if (index === 1) {
+        confirmedDays.push('saturday')
+      }
+      if (index === 2) {
+        confirmedDays.push('sunday')
+      }
+    }
+  }
+  startCinema(confirmedDays, links)
 }
 
 // async function getCalender (urls) {
