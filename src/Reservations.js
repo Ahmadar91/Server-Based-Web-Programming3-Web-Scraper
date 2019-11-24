@@ -7,9 +7,7 @@ let lastUrl
 
 export default async function startReservation (results, url) {
   finalResults = results
-  console.log('reservation', finalResults)
   lastUrl = url
-  console.log(lastUrl)
   getDinnerHTML(lastUrl)
 }
 
@@ -23,10 +21,7 @@ async function getDinnerHTML (url) {
     }
   })
   const results = await response.text()
-  console.log(results)
   const $ = cheerio.load(results)
-  console.log($.html())
-  //   const form = $('form')
   const dayValues = []
   for (let index = 0; index < 3; index++) {
     const input = $(`.WordSection${(index + 1) * 2} input`)
@@ -34,11 +29,9 @@ async function getDinnerHTML (url) {
       dayValues.push((element.attribs.value))
     })
   }
-  getResults(dayValues)
+  getRecommendations(dayValues)
 }
-function getResults (values) {
-  console.log(values)
-  console.log(finalResults)
+function getRecommendations (values) {
   console.log('Recommendation')
   console.log('===============')
   for (let index = 0; index < finalResults.length; index++) {
@@ -47,9 +40,8 @@ function getResults (values) {
       const element2 = values[j]
       if (element.day.includes(element2.slice(0, 3))) {
         if (parseInt(element.movieTime.slice(0, 2)) < parseInt(element2.slice(3, element2.length - 2))) {
-          console.log(element.movieName + element.movieTime + element2)
+          console.log('on ' + element.day + ' "' + element.movieName + '"' + ' starts at ' + element.movieTime + ' and there is a free table between ' + element2.slice(3, element2.length - 2) + ':00-' + element2.slice(5, element2.length) + ':00')
         }
-        // console.log(element2.slice(3, element2.length - 2))
       }
     }
   }

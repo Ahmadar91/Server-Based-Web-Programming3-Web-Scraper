@@ -2,21 +2,15 @@
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import startCinema from './Cinema.js'
-// const fetch = require('node-fetch')
-// const request = require('request')
-// const cheerio = require('cheerio')
 const links = []
 export async function startScraping (urls) {
   const url = urls + ''
-  console.log(url)
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
   const ol = $('a')
   ol.each(function (index, element) {
     links.push(element.attribs.href)
-    // console.log($(this).text())
     if ($(this).text().toLowerCase() === 'calendar') {
-      // links.push(element.attribs.href)
       getCalender(links[0])
     }
   })
@@ -25,16 +19,13 @@ export async function startScraping (urls) {
 async function getCalender (url) {
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
-  console.log('aaaaaaaaaaaa', $('ul').html())
   const ul = $('a')
   const items = []
   const userName = []
   ul.each(function (index, element) {
-    console.log($(this).text())
     items.push(element.attribs.href)
     userName.push($(this).text())
   })
-  console.log(userName)
 
   getDays(items, url, userName)
 }
@@ -52,26 +43,20 @@ async function getDays (arr, url, userName) {
     if (user.toLowerCase().includes('paul')) {
       tbody.each(function (index, element) {
         const okDay = $(this).text().toLowerCase()
-        console.log(okDay)
         paulDays.push(okDay)
       })
-      console.log('paul', paulDays)
     }
     if (user.toLowerCase().includes('peter')) {
       tbody.each(function (index, element) {
         const okDay = $(this).text().toLowerCase()
-        console.log(okDay)
         peterDays.push(okDay)
       })
-      console.log('peter', peterDays)
     }
     if (user.toLowerCase().includes('mary')) {
       tbody.each(function (index, element) {
         const okDay = $(this).text().toLowerCase()
-        console.log(okDay)
         maryDays.push(okDay)
       })
-      console.log('mary', maryDays)
     }
   }
 

@@ -6,6 +6,5 @@ if (args.length === 0) {
   console.error('ERROR: No argument(s).')
   process.exit(0)
 } else {
-  console.log(args)
   startScraping(args)
 }
