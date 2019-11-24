@@ -33,14 +33,14 @@ async function getDinnerHTML (url) {
 }
 function getRecommendations (values) {
   console.log('Recommendation')
-  console.log('===============')
+  console.log('==============')
   for (let index = 0; index < finalResults.length; index++) {
     const element = finalResults[index]
     for (let j = 0; j < values.length; j++) {
       const element2 = values[j]
       if (element.day.includes(element2.slice(0, 3))) {
         if (parseInt(element.movieTime.slice(0, 2)) < parseInt(element2.slice(3, element2.length - 2))) {
-          console.log('on ' + element.day + ' "' + element.movieName + '"' + ' starts at ' + element.movieTime + ' and there is a free table between ' + element2.slice(3, element2.length - 2) + ':00-' + element2.slice(5, element2.length) + ':00')
+          console.log('On ' + element.day.charAt(0).toUpperCase() + element.day.substring(1) + ' "' + element.movieName + '"' + ' starts at ' + element.movieTime + ' and there is a free table between ' + element2.slice(3, element2.length - 2) + ':00-' + element2.slice(5, element2.length) + ':00')
         }
       }
     }

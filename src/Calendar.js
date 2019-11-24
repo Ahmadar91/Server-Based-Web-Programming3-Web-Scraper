@@ -16,7 +16,6 @@ export async function startScraping (urls) {
 }
 
 async function getCalender (url) {
-  console.log('Scraping links...OK')
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
   const ul = $('a')
