@@ -40,6 +40,19 @@ function getResults (values) {
   console.log(values)
   console.log(finalResults)
   console.log('Recommendation')
+  console.log('===============')
+  for (let index = 0; index < finalResults.length; index++) {
+    const element = finalResults[index]
+    for (let j = 0; j < values.length; j++) {
+      const element2 = values[j]
+      if (element.day.includes(element2.slice(0, 3))) {
+        if (parseInt(element.movieTime.slice(0, 2)) < parseInt(element2.slice(3, element2.length - 2))) {
+          console.log(element.movieName + element.movieTime + element2)
+        }
+        // console.log(element2.slice(3, element2.length - 2))
+      }
+    }
+  }
 }
 async function login () {
   let responseHeaders = ''
@@ -62,19 +75,6 @@ async function login () {
       console.log(err)
     }
   })
-  return responseHeaders
 
-//   const userName = {
-//     username: 'zeke',
-//     password: 'coys',
-//     submit: 'login'
-//   }
-//   console.log(action)
-//   const response = await fetch(lastUrl + '/login', {
-//     method: 'POST',
-//     body: JSON.stringify(userName),
-//     headers: { 'Content-Type': 'application/json' }
-//   })
-//   const results = await response.text()
-//   console.log(results)
+  return responseHeaders
 }
