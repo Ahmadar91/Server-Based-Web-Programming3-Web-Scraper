@@ -32,6 +32,9 @@ async function getDinnerHTML (url) {
   getRecommendations(dayValues)
 }
 function getRecommendations (values) {
+  console.log()
+  console.log()
+
   console.log('Recommendation')
   console.log('==============')
   for (let index = 0; index < finalResults.length; index++) {
