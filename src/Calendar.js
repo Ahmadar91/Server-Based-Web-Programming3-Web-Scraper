@@ -10,13 +10,13 @@ export async function startScraping (urls) {
   const ol = $('a')
   ol.each(function (index, element) {
     links.push(element.attribs.href)
-    if ($(this).text().toLowerCase() === 'calendar') {
-      getCalender(links[0])
-    }
   })
+  console.log('Scraping links...OK')
+  getCalender(links[0])
 }
 
 async function getCalender (url) {
+  console.log('Scraping links...OK')
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
   const ul = $('a')
@@ -80,6 +80,8 @@ function compareAvailableDays (paul, peter, mary) {
       }
     }
   }
+  console.log('Scraping available days...OK')
+
   startCinema(confirmedDays, links)
 }
 

@@ -34,7 +34,7 @@ export default async function startCinema (arr, url) {
     //   movieDay.push($(this).text().toLowerCase())
     //   movieOption.push(element.attribs.value)
       movieDetailObjet.push({
-        name: $(this).text().toLowerCase(),
+        name: $(this).text(),
         value: element.attribs.value
       })
     }
@@ -99,5 +99,7 @@ function getResults (arr, day, movie) {
     }
     finalResults.push(movieDetails)
   }
+  console.log('Scraping showTimes...OK')
+
   startReservation(finalResults, links[2])
 }

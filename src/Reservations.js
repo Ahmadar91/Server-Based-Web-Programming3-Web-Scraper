@@ -13,11 +13,9 @@ export default async function startReservation (results, url) {
 
 async function getDinnerHTML (url) {
   const data = await login()
-  const currentSession = data['set-cookie'].toString()
-
   const response = await fetch(lastUrl + '/' + data.location, {
     headers: {
-      cookie: currentSession
+      cookie: data['set-cookie'].toString()
     }
   })
   const results = await response.text()
@@ -29,6 +27,8 @@ async function getDinnerHTML (url) {
       dayValues.push((element.attribs.value))
     })
   }
+  console.log('Scraping possible reservations...OK')
+
   getRecommendations(dayValues)
 }
 function getRecommendations (values) {
@@ -50,6 +50,8 @@ async function login () {
   let responseHeaders = ''
   await request({
     method: 'POST',
+    followAllRedirects: false,
+    followOriginalHttpMethod: false,
     uri: lastUrl + '/login',
     body: {
       username: 'zeke',
@@ -63,7 +65,7 @@ async function login () {
     }
     responseHeaders = response.headers
   }).catch((err) => {
-    if (err === null) {
+    if (err.statusCode !== 302) {
       console.log(err)
     }
   })
