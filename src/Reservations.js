@@ -14,12 +14,6 @@ export default async function startReservation (results, url) {
 }
 
 async function getDinnerHTML (url) {
-//   const body = await getDataFromAPI(url)
-//   const $ = cheerio.load(body)
-//   //   console.log($.html())
-//   const form = $('form')
-//   const action = form.attr('action')
-//   console.log('TCL: getDinnerHTML -> action', action)
   const data = await login()
   const currentSession = data['set-cookie'].toString()
 
@@ -33,18 +27,23 @@ async function getDinnerHTML (url) {
   const $ = cheerio.load(results)
   console.log($.html())
   //   const form = $('form')
-  const friday = []
-  const selector = $('.WordSection2>')
-  selector.each(function (index, element) {
-    console.log($(this).text().toLowerCase())
-    friday.push($(this).text().toLowerCase())
-  })
-  console.log(friday)
+  const dayValues = []
+  for (let index = 0; index < 3; index++) {
+    const input = $(`.WordSection${(index + 1) * 2} input`)
+    input.each(function (index, element) {
+      dayValues.push((element.attribs.value))
+    })
+  }
+  getResults(dayValues)
 }
-
+function getResults (values) {
+  console.log(values)
+  console.log(finalResults)
+  console.log('Recommendation')
+}
 async function login () {
   let responseHeaders = ''
-  const options = {
+  await request({
     method: 'POST',
     uri: lastUrl + '/login',
     body: {
@@ -53,8 +52,7 @@ async function login () {
       submit: 'login'
     },
     json: true
-  }
-  await request(options, (error, response) => {
+  }, (error, response) => {
     if (error) {
       console.log(error)
     }
@@ -80,10 +78,3 @@ async function login () {
 //   const results = await response.text()
 //   console.log(results)
 }
-
-// async function getDataFromAPI (url) {
-//   const response = await fetch(url)
-//   const body = await response.text()
-//   //   console.log(body)
-//   return body
-// }
