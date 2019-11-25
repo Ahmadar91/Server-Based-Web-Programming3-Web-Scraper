@@ -4,14 +4,27 @@ import request from 'request-promise-native'
 
 let finalResults = []
 let lastUrl
+/**
+ *
+ * start the reservations
+ * @export
+ * @param {*} results
+ * @param {*} url
+ */
 export default async function startReservation (results, url) {
   finalResults = results
   lastUrl = url
   getDinnerHTML(lastUrl)
 }
+/**
+ *
+ * get the headers from the POST response and do a GET for the with the new url and cookie
+ * and add the input values to an array
+ * @param {*} url
+ */
 async function getDinnerHTML (url) {
-  const data = await login()
-  const response = await fetch(url + '/' + data.location, {
+  const data = await loginToForm()
+  const response = await fetch(`${url}/${data.location}`, {
     headers: {
       cookie: data['set-cookie'].toString()
     }
@@ -28,6 +41,11 @@ async function getDinnerHTML (url) {
   console.log('Scraping possible reservations...OK')
   getRecommendations(dayValues)
 }
+/**
+ *
+ * compare the results and display the available options
+ * @param {*} values
+ */
 function getRecommendations (values) {
   console.log()
   console.log()
@@ -45,13 +63,18 @@ function getRecommendations (values) {
     }
   }
 }
-async function login () {
+/**
+ *POST request with the form and the login url which returns the response headers
+ *
+ * @returns
+ */
+async function loginToForm () {
   let responseHeaders = ''
   await request({
     method: 'POST',
     followAllRedirects: false,
     followOriginalHttpMethod: false,
-    uri: lastUrl + '/login',
+    uri: `${lastUrl}/login`,
     body: {
       username: 'zeke',
       password: 'coys',

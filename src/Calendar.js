@@ -2,6 +2,12 @@ import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import startCinema from './Cinema.js'
 const links = []
+/**
+ *start the scraping process and extract links
+ *
+ * @export
+ * @param {*} urls
+ */
 export async function startScraping (urls) {
   const url = urls + ''
   const body = await getDataFromAPI(url)
@@ -13,6 +19,11 @@ export async function startScraping (urls) {
   console.log('Scraping links...OK')
   getCalender(links[0])
 }
+/**
+ *extract the the href and the name of users
+ *
+ * @param {*} url
+ */
 async function getCalender (url) {
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
@@ -26,6 +37,13 @@ async function getCalender (url) {
 
   getDays(items, url, userName)
 }
+/**
+ *get the the days for the users
+ *
+ * @param {*} arr
+ * @param {*} url
+ * @param {*} userName
+ */
 async function getDays (arr, url, userName) {
   const paulDays = []
   const peterDays = []
@@ -53,6 +71,13 @@ async function getDays (arr, url, userName) {
   }
   compareAvailableDays(paulDays, peterDays, maryDays)
 }
+/**
+ *
+ * check the days for the users if all three are ok then add the day to the array
+ * @param {*} paul
+ * @param {*} peter
+ * @param {*} mary
+ */
 function compareAvailableDays (paul, peter, mary) {
   const confirmedDays = []
   for (let index = 0; index < 3; index++) {
@@ -71,12 +96,21 @@ function compareAvailableDays (paul, peter, mary) {
       }
     }
   }
-  console.log('Scraping available days...OK')
-  startCinema(confirmedDays, links)
+  if (confirmedDays.length !== 0) {
+    console.log('Scraping available days...OK')
+    startCinema(confirmedDays, links)
+  } else {
+    console.log('No available days')
+  }
 }
+/**
+ *
+ * return the body of the html for the url
+ * @param {*} url
+ * @returns
+ */
 async function getDataFromAPI (url) {
   const response = await fetch(url)
   const body = await response.text()
-  // console.log(body)
   return body
 }
