@@ -1,4 +1,3 @@
-// import request from 'request'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import startCinema from './Cinema.js'
@@ -14,7 +13,6 @@ export async function startScraping (urls) {
   console.log('Scraping links...OK')
   getCalender(links[0])
 }
-
 async function getCalender (url) {
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
@@ -28,7 +26,6 @@ async function getCalender (url) {
 
   getDays(items, url, userName)
 }
-
 async function getDays (arr, url, userName) {
   const paulDays = []
   const peterDays = []
@@ -39,26 +36,21 @@ async function getDays (arr, url, userName) {
     const $ = cheerio.load(body)
     const tbody = $('tbody tr td')
     const user = userName[index]
-    if (user.toLowerCase().includes('paul')) {
-      tbody.each(function (index, element) {
+    tbody.each(function () {
+      if (user.toLowerCase().includes('paul')) {
         const okDay = $(this).text().toLowerCase()
         paulDays.push(okDay)
-      })
-    }
-    if (user.toLowerCase().includes('peter')) {
-      tbody.each(function (index, element) {
+      }
+      if (user.toLowerCase().includes('peter')) {
         const okDay = $(this).text().toLowerCase()
         peterDays.push(okDay)
-      })
-    }
-    if (user.toLowerCase().includes('mary')) {
-      tbody.each(function (index, element) {
+      }
+      if (user.toLowerCase().includes('mary')) {
         const okDay = $(this).text().toLowerCase()
         maryDays.push(okDay)
-      })
-    }
+      }
+    })
   }
-
   compareAvailableDays(paulDays, peterDays, maryDays)
 }
 function compareAvailableDays (paul, peter, mary) {
@@ -80,42 +72,11 @@ function compareAvailableDays (paul, peter, mary) {
     }
   }
   console.log('Scraping available days...OK')
-
   startCinema(confirmedDays, links)
 }
-
-// async function getCalender (urls) {
-//   const url = urls + ''
-//   const body = await getDataFromAPI(url)
-//   // console.log(body)
-
-//   // console.log(url)
-//   const $ = cheerio.load(body)
-//   console.log($('ul').html())
-// }
-
 async function getDataFromAPI (url) {
   const response = await fetch(url)
   const body = await response.text()
   // console.log(body)
   return body
 }
-/*
-async function getCalender (urls) {
-  const url = urls + ''
-  // const body =
-  // console.log(body)
-
-  // console.log(url)
-  const $ = await getDataFromAPI(url)
-  console.log($('ul').html())
-}
-
-async function getDataFromAPI (url) {
-  const response = await fetch(url)
-  const body = await response.text()
-  // console.log(body)
-  return cheerio.load(body)
-}
-
- */
