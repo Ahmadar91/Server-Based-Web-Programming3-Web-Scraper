@@ -7,6 +7,7 @@ or
 
 npm start http://cscloud304.lnu.se:8080 
 
-npm run nodemon http://vhost3.lnu.se:20080/weekend
+dev
 
-npm start http://cscloud304.lnu.se:8080 
+npm run nodemon http://vhost3.lnu.se:20080/weekend
+npm run nodemon http://cscloud304.lnu.se:8080 
