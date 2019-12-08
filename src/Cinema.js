@@ -1,7 +1,7 @@
 
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const startReservation = require('./Reservations')
+const startReservation = require('./Reservations.js')
 let links = []
 /**
  *

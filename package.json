@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "standard --fix & node ./src/app.js",
     "nodemon": "standard --fix & nodemon ./src/app.js --exec babel-node",
-    "startdev":"standard --fix & babel-node ./src/app.js"
+    "startdev": "standard --fix & babel-node ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
+    "node-fetch": "^2.6.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"
   },
