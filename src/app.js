@@ -1,5 +1,5 @@
 
-const startScraping = require('./calendar.js')
+const startScraping = require('./Calendar.js')
 
 const args = process.argv.slice(2)
 if (args.length === 0) {
