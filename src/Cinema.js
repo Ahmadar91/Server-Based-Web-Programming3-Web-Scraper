@@ -1,7 +1,7 @@
-import cheerio from 'cheerio'
-import fetch from 'node-fetch'
-import startReservation from './Reservations'
 
+const cheerio = require('cheerio')
+const fetch = require('node-fetch')
+const startReservation = require('./Reservations')
 let links = []
 /**
  *
@@ -10,7 +10,7 @@ let links = []
  * @param {*} arr
  * @param {*} url
  */
-export default async function startCinema (arr, url) {
+async function startCinema (arr, url) {
   links = url
   const cinemaUrl = url[1] + ''
   const movieDayObjet = []
@@ -117,3 +117,4 @@ function getResults (arr, day, movie) {
   console.log('Scraping showTimes...OK')
   startReservation(finalResults, links[2])
 }
+module.exports = startCinema

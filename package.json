@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "standard --fix & babel-node ./src/app.js",
-    "nodemon": "standard --fix & nodemon ./src/app.js --exec babel-node"
+    "start": "standard --fix & node ./src/app.js",
+    "nodemon": "standard --fix & nodemon ./src/app.js --exec babel-node",
+    "startdev":"standard --fix & babel-node ./src/app.js"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
-import fetch from 'node-fetch'
-import cheerio from 'cheerio'
-import request from 'request-promise-native'
+
+const request = require('request-promise-native')
+const cheerio = require('cheerio')
+const fetch = require('node-fetch')
 
 let finalResults = []
 let lastUrl
@@ -11,7 +12,7 @@ let lastUrl
  * @param {*} results
  * @param {*} url
  */
-export default async function startReservation (results, url) {
+async function startReservation (results, url) {
   finalResults = results
   lastUrl = url
   getDinnerHTML(lastUrl)
@@ -93,3 +94,4 @@ async function loginToForm () {
   })
   return responseHeaders
 }
+module.exports = startReservation

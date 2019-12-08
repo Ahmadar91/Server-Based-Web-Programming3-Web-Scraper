@@ -1,6 +1,7 @@
-import cheerio from 'cheerio'
-import fetch from 'node-fetch'
-import startCinema from './Cinema.js'
+
+const cheerio = require('cheerio')
+const fetch = require('node-fetch')
+const startCinema = require('./Cinema.js')
 const links = []
 /**
  *start the scraping process and extract links
@@ -8,7 +9,7 @@ const links = []
  * @export
  * @param {*} urls
  */
-export async function startScraping (urls) {
+async function startScraping (urls) {
   const url = urls + ''
   const body = await getDataFromAPI(url)
   const $ = cheerio.load(body)
@@ -114,3 +115,4 @@ async function getDataFromAPI (url) {
   const body = await response.text()
   return body
 }
+module.exports = startScraping
